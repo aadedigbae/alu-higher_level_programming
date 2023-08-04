@@ -1,21 +1,18 @@
 #!/usr/bin/python3
-"""
-Python script that shows the last 10 commits of a repository
-in GitHub
-"""
-from requests import get, auth
+'''a Python script that takes in a URL and an email,
+sends a POST request to the passed URL with the email
+as a parameter, and displays the body of the
+response (decoded in utf-8)
+'''
+import urllib.request
+import urllib.parse
 import sys
 
-
 if __name__ == "__main__":
-    try:
-        repo = sys.argv[1]
-        owner = sys.argv[2]
-        url = 'https://api.github.com/repos/{}/{}/commits'.format(owner, repo)
-        r = get(url)
-        json_o = r.json()
-        for i in range(0, 10):
-            print("{}: {}".format(json_o[i].get('sha'), json_o[i].get('commit')
-                                  .get('author').get('name')))
-    except:
-        pass
+    url = sys.argv[1]
+    params = {'email': sys.argv[2]}
+    data = urllib.parse.urlencode(params)
+    data = data.encode('ascii')
+    request = urllib.request.Request(url, data)
+    with urllib.request.urlopen(request) as response:
+        print(response.read().decode('utf-8'))

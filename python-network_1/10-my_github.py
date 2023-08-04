@@ -1,15 +1,15 @@
 #!/usr/bin/python3
-'''a Python script that takes in a URL, sends a
-request to the URL and displays the value of the X-Request-Id variable
-'''
-import urllib.request
-import sys
-
+"""
+Python script to take GitHub credentials and uses the GitHub API to display id
+"""
 if __name__ == "__main__":
-    url = sys.argv[1]
-    request = urllib.request.Request(url)
-    with urllib.request.urlopen(request) as response:
-        headers = response.headers._headers
-        for header in headers:
-            if header[0] == "X-Request-Id":
-                print(header[1])
+    import requests
+    from requests.auth import HTTPBasicAuth as Basic_auth
+    from sys import argv
+    url = 'https://api.github.com/user'
+    try:
+        response = requests.get(url, auth=Basic_auth(argv[1], argv[2]))
+        json_string = response.json()
+        print(json_string['id'])
+    except Exception as err:
+        print("None")
