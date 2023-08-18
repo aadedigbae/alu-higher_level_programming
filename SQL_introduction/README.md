@@ -1,1 +1,1 @@
-readme fpr sql introduction
+redme for SQL more queries
